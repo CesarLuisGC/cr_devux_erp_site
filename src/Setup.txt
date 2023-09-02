@@ -1,0 +1,62 @@
+/*
+|--------------------------------------------------------------------------
+| Creación de aplicación Laravel
+|--------------------------------------------------------------------------
+*/
+composer create-project laravel/laravel erp --prefer-dist
+
+/*
+|--------------------------------------------------------------------------
+| Creación de estructura de carpetas para arquitectura limpia DDD / Hexagonal
+|--------------------------------------------------------------------------
+| https://www.youtube.com/watch?v=hCw1hqnVAjw&list=PLf5ATZslqO1fCeWclli2zOJx5mcVua6Yi&index=1
+*/
+-En la raíz del proyecto, en el archivo composer.json agregar el ambito de SRC ("Src\\": "src/",) en la sección
+autoload.
+
+"autoload": {
+"psr-4": {
+"App\\": "app/",
+"Src\\": "src/", /** Aquí */
+"Database\\Factories\\": "database/factories/",
+"Database\\Seeders\\": "database/seeders/"
+}
+},
+
+/*
+|--------------------------------------------------------------------------
+| Desarrollo de Multi Tenencia personalizado - Sin Paquetes
+|--------------------------------------------------------------------------
+| https://www.youtube.com/watch?v=hCw1hqnVAjw&list=PLf5ATZslqO1fCeWclli2zOJx5mcVua6Yi&index=1
+*/
+
+php artisan make:model Tenant/Modules/System/Security/Tenant
+
+php artisan make:migration Landlord/create_tenant_table
+
+php artisan make:middleware TenantMiddleware
+
+php artisan make:command Landlord/MigrateCommand
+php artisan make:command Landlord/SeederCommand
+php artisan make:command Tenant/MigrateCommand
+php artisan make:command Tenant/SeederCommand
+
+php artisan make:seeder Landlord/TestSeeder
+php artisan make:seeder Tenant/TestSeeder
+
+php artisan db:seed --class=Database\Seeders\Landlord\TestSeeder
+php artisan db:seed --class=Database\Seeders\Tenant\TestSeeder
+
+En el archivo App\Http\kernel.php agregar el middleaware al arreglo de Aliases
+protected $middlewareAliases = [
+'tenant' => \App\Http\Middleware\TenantMiddleware::class, //Aquí
+];
+
+Luego en el archivo App\Providers\RouteServiceProvider.php agregar el middleaware creado al metodo root que maneja las
+rutas
+$this->routes(function () {
+Route::middleware(['web', 'tenant']) //Aquí
+->group(base_path('routes/web.php'));
+});
+
+En la carpeta principal de APP, crear una carpeta llamada "Service"
