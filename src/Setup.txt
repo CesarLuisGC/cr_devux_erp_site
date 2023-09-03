@@ -11,6 +11,7 @@ composer create-project laravel/laravel erp --prefer-dist
 |--------------------------------------------------------------------------
 | https://www.youtube.com/watch?v=hCw1hqnVAjw&list=PLf5ATZslqO1fCeWclli2zOJx5mcVua6Yi&index=1
 */
+
 -En la raíz del proyecto, en el archivo composer.json agregar el ambito de SRC ("Src\\": "src/",) en la sección
 autoload.
 
@@ -30,9 +31,14 @@ autoload.
 | https://www.youtube.com/watch?v=hCw1hqnVAjw&list=PLf5ATZslqO1fCeWclli2zOJx5mcVua6Yi&index=1
 */
 
-php artisan make:model Tenant/Modules/System/Security/Tenant
+#Agregar nuevas conexiones en Config/Database (landlord y tenant) y dejar por defecto la DB landlord ( 'default' => env('DB_CONNECTION', 'landlord'),).
+#Crear carpetas de separación de entornos, Landlord y Tenant, acá se alojaran los rescpetivos middleawarees, se deben pasar las migraciones base en ambas carpetas.
 
-php artisan make:migration Landlord/create_tenant_table
+php artisan make:migration create_tenants_table --path=/database/migrations/Landlord
+
+php artisan make:model Landlord/Modules/System/Security/Tenant
+
+php artisan session:table
 
 php artisan make:middleware TenantMiddleware
 
@@ -43,9 +49,6 @@ php artisan make:command Tenant/SeederCommand
 
 php artisan make:seeder Landlord/TestSeeder
 php artisan make:seeder Tenant/TestSeeder
-
-php artisan db:seed --class=Database\Seeders\Landlord\TestSeeder
-php artisan db:seed --class=Database\Seeders\Tenant\TestSeeder
 
 En el archivo App\Http\kernel.php agregar el middleaware al arreglo de Aliases
 protected $middlewareAliases = [
@@ -59,4 +62,7 @@ Route::middleware(['web', 'tenant']) //Aquí
 ->group(base_path('routes/web.php'));
 });
 
-En la carpeta principal de APP, crear una carpeta llamada "Service"
+En la carpeta principal de APP, crear una carpeta llamada "Services",
+acá crearemos una clase llamada TenantService.php que brindará el servicio de cambio de base de datos según el tenant.
+
+RUTAS, en la carpeta de rutas crearemos un nuevo archivo de rutas llamado Tenant.
