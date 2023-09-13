@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Tenant\Modules\System\Security\AuthController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Tenant\Modules\System\Security\AuthController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,13 +16,13 @@ use App\Http\Controllers\Tenant\Modules\System\Security\AuthController;
 |
 */
 
-Route::get('/', function (Request $request) {
-    dd('Welcome Tenant');
-});
+Route::get('/welcome', function () {
+    return view('tenant/welcome');
+})->name('tenant.welcome');
 
 Route::controller(AuthController::class)->group(function () {
-    Route::get('/register', 'register')->name('tenant.register');
-    Route::post('/store', 'store')->name('tenant.store');
+    //Route::get('/register', 'register')->name('tenant.register');
+    //Route::post('/store', 'store')->name('tenant.store');
     Route::get('/login', 'login')->name('tenant.login');
     Route::post('/authenticate', 'authenticate')->name('tenant.authenticate');
     Route::get('/dashboard', 'dashboard')->name('tenant.dashboard');

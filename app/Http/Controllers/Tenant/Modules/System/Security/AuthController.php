@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Tenant\Modules\System\Security;
 
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
@@ -29,7 +28,7 @@ class AuthController extends Controller
      */
     public function login()
     {
-        return view('auth.login');
+        return view('tenant.auth.login');
     }
 
     /**
@@ -47,7 +46,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('dashboard')
+            return redirect()->route('tenant.dashboard')
                 ->withSuccess('You have successfully logged in!');
         }
 
@@ -63,7 +62,7 @@ class AuthController extends Controller
      */
     public function register()
     {
-        return view('auth.register');
+        return view('tenant.auth.register');
     }
 
     /**
@@ -75,9 +74,9 @@ class AuthController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:250',
-            'email' => 'required|email|max:250|unique:users',
-            'password' => 'required|min:8|confirmed'
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|max:100|unique:users',
+            'password' => 'required|min:8'
         ]);
 
         User::create([
@@ -89,7 +88,7 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         Auth::attempt($credentials);
         $request->session()->regenerate();
-        return redirect()->route('dashboard')
+        return redirect()->route('tenant.dashboard')
             ->withSuccess('You have successfully registered & logged in!');
     }
 
@@ -107,12 +106,12 @@ class AuthController extends Controller
                 'path' => array(__('syst_menu.home'))
             );
 
-            return view('auth.dashboard', ['pageTitle' => $pageTitle]);
+            return view('tenant.modules.dashboard', ['pageTitle' => $pageTitle]);
         }
 
-        return redirect()->route('login')
+        return redirect()->route('tenant.login')
             ->withErrors([
-                'email' => 'Please login to access the dashboard.',
+                'email' => 'Please login to access.',
             ])->onlyInput('email');
     }
 
@@ -127,7 +126,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/')->withSuccess('You have logged out successfully!');
+        return redirect('tenant/welcome')->withSuccess('You have logged out successfully!');
         ;
     }
 

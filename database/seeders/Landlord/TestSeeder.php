@@ -20,5 +20,12 @@ class TestSeeder extends Seeder
         ];
 
         Tenant::Insert($tenants);
+
+        \App\Models\User::create([
+            'name' => 'landlord',
+            'email' => 'landlord@gmail.com',
+            'password' => \bcrypt('12345678'),
+        ]);
+
     }
 }
