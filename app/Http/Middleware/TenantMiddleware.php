@@ -20,9 +20,12 @@ class TenantMiddleware
     {
         $host = $request->getHost();
         $tenant = Tenant::where('domain', $host)->first();
-        TenantService::switchToTenant($tenant);
-        //dd(DB::getConnections());
-        //dd(DB::table('users')->get($columns = ['*'])->toArray());
+
+        //Se valida si el host es un tenant valido, si por ejemplo es el host landlord omite el manejo de cambio de conexión
+        if (!is_null($tenant)) {
+            TenantService::switchToTenant($tenant);
+        }
+
         return $next($request);
     }
 }
