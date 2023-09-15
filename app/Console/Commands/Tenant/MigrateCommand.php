@@ -32,8 +32,10 @@ class MigrateCommand extends Command
 
         $tenants->each(function ($tenant) {
             TenantService::switchToTenant($tenant);
+            $this->info('------------------------------------------------------------------------------');
             $this->info("Start migrating: " . $tenant->domain);
-            $this->info("--------------------------------------");
+            $this->info('------------------------------------------------------------------------------');
+            $this->info("\n");
             Artisan::call('migrate --path=database/migrations/Tenant/ --database=tenant');
             $this->info(Artisan::output());
         });

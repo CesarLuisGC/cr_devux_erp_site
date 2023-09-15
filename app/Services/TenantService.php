@@ -24,6 +24,7 @@ class TenantService
 
         self::$tenant = $tenant;
         self::$domain = $tenant->domain;
+        self::$domain = $tenant->subdomain;
         self::$database = $tenant->database;
 
         DB::purge('landlord');

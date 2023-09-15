@@ -19,7 +19,7 @@ class TenantMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $host = $request->getHost();
-        $tenant = Tenant::where('domain', $host)->first();
+        $tenant = Tenant::where('url', $host)->first();
 
         //Se valida si el host es un tenant valido, si por ejemplo es el host landlord omite el manejo de cambio de conexión
         if (!is_null($tenant)) {

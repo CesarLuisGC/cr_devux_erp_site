@@ -46,6 +46,7 @@ php artisan make:command Landlord/MigrateCommand
 php artisan make:command Landlord/SeederCommand
 php artisan make:command Tenant/MigrateCommand
 php artisan make:command Tenant/SeederCommand
+php artisan make:command Tenant/InitializetCommand
 
 php artisan make:seeder Landlord/TestSeeder
 php artisan make:seeder Tenant/TestSeeder

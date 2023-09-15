@@ -12,8 +12,10 @@ return new class extends Migration {
     {
         Schema::create('tenants', function (Blueprint $table) {
             $table->id();
-            $table->string('domain', 255)->unique();
-            $table->string('database', 255)->unique();
+            $table->string('domain', 60);
+            $table->string('subdomain', 40)->unique();
+            $table->string('url', 100)->unique();
+            $table->string('database', 100)->unique();
             $table->timestamps();
         });
     }
