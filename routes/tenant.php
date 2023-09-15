@@ -28,3 +28,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('/dashboard', 'dashboard')->name('tenant.dashboard');
     Route::post('/logout', 'logout')->name('tenant.logout');
 });
+
+Route::get('user/{locale}/changeLanguage', [System\Security\UserController::class, 'changeLanguage'])->name(
+    'user.changeLanguage'
+);

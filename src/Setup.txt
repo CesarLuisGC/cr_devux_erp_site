@@ -49,6 +49,7 @@ php artisan make:command Tenant/SeederCommand
 
 php artisan make:seeder Landlord/TestSeeder
 php artisan make:seeder Tenant/TestSeeder
+php artisan make:seeder Tenant/InitializetSeeder
 
 En el archivo App\Http\kernel.php agregar el middleaware al arreglo de Aliases
 protected $middlewareAliases = [
@@ -66,3 +67,44 @@ En la carpeta principal de APP, crear una carpeta llamada "Services",
 acá crearemos una clase llamada TenantService.php que brindará el servicio de cambio de base de datos según el tenant.
 
 RUTAS, en la carpeta de rutas crearemos un nuevo archivo de rutas llamado Tenant.
+
+/*
+|--------------------------------------------------------------------------
+| Desarrollo de autenticación personalizada - Sin Paquetes
+|--------------------------------------------------------------------------
+| https://www.allphptricks.com/laravel-custom-user-registration-and-login-tutorial/
+*/
+php artisan make:controller App/Http/Controllers/Tenant/Modules/System/Security/AuthController --resource
+php artisan make:controller App/Http/Controllers/Landlord/Modules/System/Security/AuthController --resource
+
+Se crean y se agregan las vistas de login y registro de tentants y landlord.
+
+
+/*
+|--------------------------------------------------------------------------
+| Instalación de paquetes
+|--------------------------------------------------------------------------
+*/
+
+https://tenancyforlaravel.com/docs/v3/quickstart
+
+https://livewire.laravel.com/docs/quickstart
+composer require livewire/livewire
+php artisan livewire:publish --config
+
+https://spatie.be/docs/laravel-permission/v5/installation-laravel
+composer require spatie/laravel-permission
+
+Optional: The service provider will automatically get registered. Or you may manually add the service provider in your
+config/app.php file:
+'providers' => [
+// ...
+Spatie\Permission\PermissionServiceProvider::class,
+];
+
+php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+php artisan config:clear
+php artisan route:cache
+php artisan view:cache
+php artisan optimize:clear
+

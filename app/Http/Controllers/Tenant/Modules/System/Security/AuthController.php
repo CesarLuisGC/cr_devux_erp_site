@@ -100,12 +100,10 @@ class AuthController extends Controller
     public function dashboard()
     {
         if (Auth::check()) {
-
             $pageTitle = array(
-                'title' => trans('secu_user.userList'),
+                'title' => trans('syst_menu.dashboard'),
                 'path' => array(__('syst_menu.home'))
             );
-
             return view('tenant.modules.dashboard', ['pageTitle' => $pageTitle]);
         }
 
