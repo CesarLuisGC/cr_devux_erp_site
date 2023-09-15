@@ -46,8 +46,6 @@ final class MenuEloquentAdapter implements MenuRepositoryInterface
             ->get()
             ->toArray();
 
-        //dd($data);
-
         return $data;
     }
 

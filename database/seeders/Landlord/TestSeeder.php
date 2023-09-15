@@ -14,9 +14,9 @@ class TestSeeder extends Seeder
     public function run(): void
     {
         $tenants = [
-            ['domain' => 'app1.cr_devux_erp_site.test', 'database' => 'tenant_app1'],
-            ['domain' => 'app2.cr_devux_erp_site.test', 'database' => 'tenant_app2'],
-            ['domain' => 'app3.cr_devux_erp_site.test', 'database' => 'tenant_app3'],
+            ['domain' => 'cr_devux_erp_site.test', 'subdomain' => 'app1', 'url' => 'app1.cr_devux_erp_site.test', 'database' => 'tenant_app1'],
+            ['domain' => 'cr_devux_erp_site.test', 'subdomain' => 'app2', 'url' => 'app2.cr_devux_erp_site.test', 'database' => 'tenant_app2'],
+            ['domain' => 'cr_devux_erp_site.test', 'subdomain' => 'app3', 'url' => 'app3.cr_devux_erp_site.test', 'database' => 'tenant_app3'],
         ];
 
         Tenant::Insert($tenants);

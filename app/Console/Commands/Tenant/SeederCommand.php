@@ -33,8 +33,10 @@ class SeederCommand extends Command
 
         $tenants->each(function ($tenant) use ($class) {
             TenantService::switchToTenant($tenant);
+            $this->info('------------------------------------------------------------------------------');
             $this->info('Start seeding: ' . $tenant->domain);
-            $this->info('---------------------------------------');
+            $this->info('------------------------------------------------------------------------------');
+            $this->info("\n");
             Artisan::call('db:seed', [
                 '--class' => 'Database\\Seeders\\Tenant\\' . $class,
                 '--database' => 'tenant'
