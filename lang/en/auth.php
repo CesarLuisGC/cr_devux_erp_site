@@ -20,6 +20,7 @@ return [
     'welcome' => 'Welcome',
     'login' => 'LogIn',
     'register' => 'Register',
-    'logout' => 'LogOut'
+    'logout' => 'LogOut',
+    'recover' => 'Recover',
 
 ];

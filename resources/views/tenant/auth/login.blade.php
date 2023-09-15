@@ -21,7 +21,7 @@
                         </div>
                         <div class="card-body">
                             <form class="form w-100" novalidate="novalidate" id="login_form" method="POST"
-                                action="{{ route('landlord.authenticate') }}">
+                                action="{{ route('tenant.authenticate') }}">
                                 @csrf
 
                                 <label>Email</label>
@@ -52,9 +52,9 @@
                         </div>
                         <div class="card-footer text-center pt-0 px-lg-2 px-1">
                             <p class="mb-4 text-sm mx-auto">
-                                Don't have an account?
-                                <a href="{{ route('landlord.register') }}" class="text-info text-gradient font-weight-bold">
-                                    @lang('auth.register')</a>
+                                Recover password?
+                                <a href="" class="text-info text-gradient font-weight-bold">
+                                    @lang('auth.recover')</a>
                             </p>
                         </div>
                     </div>
