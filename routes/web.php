@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Landlord\Modules\System\Notification\Mail\SendMailController;
 use App\Http\Controllers\Landlord\Modules\System\Security\AuthController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
@@ -19,6 +20,8 @@ use Illuminate\Http\Request;
 Route::get('/welcome', function () {
     return view('landlord/welcome');
 })->name('landlord.welcome');
+
+Route::get('/sendmail', [SendMailController::class, 'sendmail'])->name('landlord.sendmail');
 
 Route::controller(AuthController::class)->group(function () {
     Route::get('/register', 'register')->name('landlord.register');

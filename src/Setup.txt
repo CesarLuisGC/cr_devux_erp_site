@@ -109,3 +109,32 @@ php artisan route:cache
 php artisan view:cache
 php artisan optimize:clear
 
+/*
+|--------------------------------------------------------------------------
+| Se agrega servicio de envío masivo de correos mediante Jobs en segundo plano
+|--------------------------------------------------------------------------
+| https://websolutionstuff.com/post/laravel-10-send-bulk-mail-using-queue
+| https://stackoverflow.com/questions/71923673/laravel-9-dynamic-email-configurations
+| https://mailtrap.io/blog/laravel-mail-queue/
+*/
+//1- Creación de tablas para el manejo de Jobs mediante Queues, estas migraciones se deben mover a las carpetas de landlord y tenant.
+php artisan queue:table
+php artisan queue:failed-table
+
+//2- Ruta de acceso / ejecusión de tareas de envío de correos.
+Route::get('/sendmail', [SendMailController::class, 'sendmail'])->name('landlord.sendmail');
+
+//3- Controlador general envio de correos, este alojará los diferentes envíos (Registro, notificaciones, emarketing masivos etc).
+php artisan make:controller App/Http/Controllers/Landlord/Modules/System/Notification/Mail/SendMailController
+
+//4- Se crea vista blade que es la plantilla HTML para el cuerpo del correo.
+views/mail/template/devux/general.blade.php
+
+//5- Se crea clase Mailable para el envío de correo.
+php artisan make:mail EmailContainer
+
+//6- Creamos la clase de trabajo JOB para envío de bienvenida de registro.
+php artisan make:job Landlord\Mail\SendEmailJob
+
+//7- Comando para levantar el servicio que escucha los trabajos ejecutados.
+php artisan queue:listen
